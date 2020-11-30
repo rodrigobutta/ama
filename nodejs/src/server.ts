@@ -36,7 +36,7 @@ app.use(function (err: ErrorRequestHandler, req: Request, res: Response, next: N
     ? err 
     : new ServerError(err);
  
-    console.log('server error',errorInstance.getMessage());
+    console.log('Request Error',errorInstance.getMessage());
     
   return res
     .status(errorInstance.getStatus())

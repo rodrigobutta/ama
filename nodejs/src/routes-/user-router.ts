@@ -1,10 +1,8 @@
 import { Router } from 'express'
 import { User } from '../models/User';
 import ResourceAlreadyExistsError from '../exceptions/ResourceAlreadyExistsError';
-import ServerError from '../exceptions/ServerError';
 
 const userRouter = Router();
-
 
 
 userRouter.get('/', async (req, res, next) => {
@@ -18,8 +16,7 @@ userRouter.get('/', async (req, res, next) => {
 })
 
 userRouter.post('/', async (req, res, next) => {
-  console.log('POST', req.body);
-  const { username } = req.body;
+  const { username, password } = req.body;
 
   User.find({
     username
@@ -32,6 +29,7 @@ userRouter.post('/', async (req, res, next) => {
 
     const user = new User({
       username,
+      password
     })
 
     user.save()
@@ -42,7 +40,6 @@ userRouter.post('/', async (req, res, next) => {
         })
       })
       .catch((err) => {
-        console.log('NEXT ERRRRR');
         return next(err);
       })
   })

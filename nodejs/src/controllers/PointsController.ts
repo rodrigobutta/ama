@@ -27,8 +27,6 @@ class PointsController {
       };
     });
 
-    console.log('returning', serializedPoints);
-
     return response.json(serializedPoints);
   }
 
