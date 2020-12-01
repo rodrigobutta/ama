@@ -7,6 +7,7 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import './Home.css';
 
 const Home: React.FC = () => {
+    console.log('REAAAAAACT HOME');
     return(
         <div id="page-home">
             <div className="content">
@@ -14,7 +15,7 @@ const Home: React.FC = () => {
                     <Logo title="Ecoleta"/>
                 </header>
                 <main>
-                    <h1>Seu marketplace de coleta de resíduos.</h1>
+                    <h1>2222Seu marketplace de coleta de resíduos.</h1>
                     <p>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</p>
                     <Link to="/create-point">
                         <span>

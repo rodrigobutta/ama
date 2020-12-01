@@ -4,13 +4,12 @@ WORKDIR /app/
 
 COPY ./package.json /app/package.json
 RUN npm install
-#RUN npm install -g nodemon
-RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install react-scripts -g --silent
 
 COPY ./src/ /app/src/
 COPY ./public/ /app/public/
 
-ENTRYPOINT [ "npm","start"]
+ENTRYPOINT [ "npm","run","dev"]
 
 FROM node:12.4.0-alpine as web_prod
 
