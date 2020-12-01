@@ -1,8 +1,8 @@
 version: "3.4"
 services: 
-  nodejs: #docker run -it -v ${PWD}:/work -w /work -p 5002:5000 aimvector/nodejs:1.0.0 /bin/sh
+  nodejs:
     container_name: nodejs
-    image: aimvector/nodejs:1.0.0
+    image: ama/nodejs:1.0.0
     environment:
       NODE_ENV: production
       HOST: "0.0.0.0"
@@ -10,7 +10,7 @@ services:
       DB_HOST: db
     build:
       context: ./nodejs
-      target: debug
+      target: nodejs_debug
     #working_dir: /work      #comment out for build.target:prod
     #entrypoint: /bin/sh     #comment out for build.target:prod
     #stdin_open: true        #comment out for build.target:prod
@@ -29,3 +29,20 @@ services:
       - "27018:27017"
     volumes:
       - ./.data:/data/db
+  web:
+    container_name: web
+    image: ama/web:1.0.0
+    environment:
+      NODE_ENV: production
+      HOST: "0.0.0.0"
+      PORT: 80
+    build:
+      context: ./web
+      target: web_debug
+    stdin_open: true
+    volumes:
+    - ./web/src/:/app/src/
+    - ./web/public/:/app/public/
+    ports:
+      - 8080:80
+      - 9230:9229            #debug port
