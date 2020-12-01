@@ -11,6 +11,8 @@ COPY ./public/ /app/public/
 
 ENTRYPOINT [ "npm","run","dev"]
 
+EXPOSE 3000
+
 FROM node:12.4.0-alpine as web_prod
 
 WORKDIR /app/
@@ -20,3 +22,5 @@ COPY ./src/ /app/
 COPY ./public/ /public/
 
 CMD node .
+
+EXPOSE 3000

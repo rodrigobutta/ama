@@ -11,27 +11,26 @@
             "localRoot": "${workspaceFolder}/nodejs/src/",
             "protocol": "inspector",
             "restart": true
-        },
+        },     
         // {
-        //     "name": "Docker: Web React DOESNT WORK YET!!!!!",
+        //     "name": "Web React Chrome",
         //     "type": "chrome",
         //     "request": "launch",
-        //     // "remoteRoot": "/app/src/",
-        //     // "port": 8081,
-        //     // "address ": "localhost", 
-        //     // "localRoot": "${workspaceFolder}/web/src/",
-        //     // "protocol": "inspector",
-        //     // "restart": true,
-            
-        //     "url": "http://localhost:8080",
-        //     "webRoot": "${workspaceFolder}/web"
+        //     "url": "http://localhost:3000",
+        //     "webRoot": "${workspaceRoot}/web/src",           
         // },
         {
-            "name": "Web React Chrome",
+            "name": "Docker: Web React Chrome",
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceRoot}/web/src",           
+            "webRoot": "${workspaceRoot}/web/src",
+            "sourceMapPathOverrides": {
+                "/app/src/*": "${webRoot}/*"
+            },
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ]
         }
     ]
 }

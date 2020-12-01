@@ -35,8 +35,7 @@ services:
     environment:
       NODE_ENV: production
       HOST: "0.0.0.0"
-      PORT: 80
-      - CHOKIDAR_USEPOLLING=true
+      PORT: 3000
     build:
       context: ./web
       target: web_debug
@@ -44,6 +43,7 @@ services:
     volumes:
     - ./web/src/:/app/src/
     - ./web/public/:/app/public/
+    working_dir: /app
     ports:
-      - 3000:80
-      - 9229:9229
+      - 3000:3000
+      - 9222:9222    
