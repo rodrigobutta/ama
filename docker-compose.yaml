@@ -36,6 +36,8 @@ services:
       NODE_ENV: production
       HOST: "0.0.0.0"
       PORT: 3000
+      REACT_APP_API_HOST: "0.0.0.0"
+      REACT_APP_API_PORT: 5002
     build:
       context: ./web
       target: web_debug

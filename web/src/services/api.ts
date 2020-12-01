@@ -1,8 +1,9 @@
 import axios from 'axios';
-import localIpUrl from 'local-ip-url';
+import { API_HOST, API_PORT } from '../config/config';
+
 
 const api = axios.create({
-    baseURL: `http://${localIpUrl('public')}:3333`
+    baseURL: `http://${API_HOST}:${API_PORT}`
 });
 
 export default api;

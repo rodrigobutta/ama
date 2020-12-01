@@ -40,7 +40,7 @@ class PointsController {
       if(point){
         const res = {
           ...point.toJSON(),
-          image_url: `http://${ADDRESS}:3333/uploads/${point.image}`
+          image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`
         };      
         return response.json(res);  
       }
