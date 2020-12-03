@@ -1,8 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Map, TileLayer, Marker } from 'react-leaflet';
-import { LeafletMouseEvent } from 'leaflet';
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 import axios from 'axios';
 
 import Dropzone from '../../components/Dropzone';
@@ -47,10 +46,19 @@ const CreatePoint: React.FC = () => {
 
     const history = useHistory();
 
+    // const map = useMapEvents({
+    //     click(e) {
+    //         const newMarker = e.latlng
+    //         console.log(newMarker);
+    //     //   setMarkers([...markers, newMarker]);
+    //     },
+    // })
+
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
             setInitialPosition([latitude, longitude]);
+
         });
     }, []);
 
@@ -88,13 +96,6 @@ const CreatePoint: React.FC = () => {
 
     const handleSelectCity = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedCity(event.target.value);
-    }
-
-    const handleMapClick = (event: LeafletMouseEvent) => {
-        setSelectedPosition([
-            event.latlng.lat,
-            event.latlng.lng
-        ]);
     }
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +138,31 @@ const CreatePoint: React.FC = () => {
         await api.post('points', data);
         alert('Ponto de coleta criado!');
         history.push('/');
+    }
+
+    function LocationMarker() {
+
+        const map = useMapEvents({
+            click(e) {                
+                console.log('click', e.latlng, map.getZoom());
+                setSelectedPosition([
+                    e.latlng.lat,
+                    e.latlng.lng
+                ]);
+                setInitialPosition([e.latlng.lat, e.latlng.lng])
+            },            
+        })
+
+        return (
+            selectedPosition ? 
+                <Marker           
+                key={selectedPosition[0]}
+                position={selectedPosition}
+                interactive={false} 
+                />
+            : null
+        )   
+        
     }
 
     return(
@@ -182,17 +208,16 @@ const CreatePoint: React.FC = () => {
                         <span>Selecione o endereço no mapa</span>
                     </legend>
 
-                    <Map 
-                        center={initialPosition} 
-                        zoom={12}
-                        onClick={handleMapClick}
+                    <MapContainer 
+                        center={selectedPosition || initialPosition} 
+                        zoom={12}                        
                     >
+                        <LocationMarker />
                         <TileLayer
                             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={selectedPosition}/>
-                    </Map>
+                        />                        
+                    </MapContainer>
 
                     <div className="field-group">
                         <div className="field">
