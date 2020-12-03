@@ -41,8 +41,8 @@ const CreatePoint: React.FC = () => {
     const [selectedUF, setselectedUF] = useState('0');
     const [selectedCity, setSelectedCity] = useState('0');
 
-    const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0]);
-    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0]);
+    const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
+    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
 
     const history = useHistory();
 
@@ -69,11 +69,11 @@ const CreatePoint: React.FC = () => {
             .then(res => {
             const ufInitials = res.data.map(uf => uf.sigla).sort();
             setInitials(ufInitials);
-        });  
+        });
     }, []);
 
     useEffect(() => {
-        if(selectedUF === '0') {
+        if (selectedUF === '0') {
             setselectedUF('');
             return;
         }
@@ -87,26 +87,26 @@ const CreatePoint: React.FC = () => {
 
     const handleSelectUF = (event: ChangeEvent<HTMLSelectElement>) => {
         setselectedUF(event.target.value);
-    }
+    };
 
     const handleSelectCity = (event: ChangeEvent<HTMLSelectElement>) => {
         setSelectedCity(event.target.value);
-    }
+    };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
-    }
+    };
 
     const handleSelectItem = (id: number) => {
         const alreadySelected = selectedItems.findIndex(item => item === id);
-        if(alreadySelected >= 0) {
+        if (alreadySelected >= 0) {
             setSelectedItems(selectedItems.filter(item => item !== id));
             return;
         }
         setSelectedItems([...selectedItems, id]);
-    }
-    
+    };
+
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
@@ -117,7 +117,7 @@ const CreatePoint: React.FC = () => {
         const items = selectedItems;
 
         const data = new FormData();
-        data.append('name',name);
+        data.append('name', name);
         data.append('email', email);
         data.append('whatsapp', whatsapp);
         data.append('uf', uf);
@@ -125,7 +125,7 @@ const CreatePoint: React.FC = () => {
         data.append('latitude', String(latitude));
         data.append('longitude', String(longitude));
         data.append('items', items.join(','));
-        
+
         if (seletedFile) {
             data.append('image', seletedFile);
         }
@@ -133,9 +133,8 @@ const CreatePoint: React.FC = () => {
         await api.post('points', data);
         alert('Ponto de coleta criado!');
         history.push('/');
-    }
+    };
 
-    // const Markers = () => {
     const Markers: React.FC = () => {
         const map = useMap();
 
@@ -143,33 +142,34 @@ const CreatePoint: React.FC = () => {
             navigator.geolocation.getCurrentPosition(position => {
                 const { latitude, longitude } = position.coords;
                 setInitialPosition([latitude, longitude]);
-                map.setView([latitude, longitude],12);
+                map.setView([latitude, longitude], 12);
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         useMapEvents({
-            click(e) {                                
+            click(e) {
                 setSelectedPosition([
                     e.latlng.lat,
                     e.latlng.lng
-                ]);                
-            },            
-        })
+                ]);
+            },
+        });
 
         return (
-            selectedPosition ? 
-                <Marker           
+            selectedPosition ?
+                <Marker
                 key={selectedPosition[0]}
                 position={selectedPosition}
-                interactive={false} 
+                interactive={false}
                 />
             : null
-        )   
-        
-    }
-    console.log(selectedPosition[0]);
-    const mapCenter = selectedPosition && selectedPosition[0] !== 0 ? selectedPosition : initialPosition 
-    console.log('mapcenter', mapCenter);
+        );
+
+    };
+
+    const mapCenter = selectedPosition && selectedPosition[0] !== 0 ? selectedPosition : initialPosition;
+
     return(
         <div id="page-create-point">
             <header>
@@ -213,24 +213,24 @@ const CreatePoint: React.FC = () => {
                         <span>Selecione o endereço no mapa</span>
                     </legend>
 
-                    <MapContainer 
-                        center={mapCenter} 
-                        zoom={12}                        
+                    <MapContainer
+                        center={mapCenter}
+                        zoom={12}
                     >
                         <Markers />
                         <TileLayer
                             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />                        
+                        />
                     </MapContainer>
 
                     <div className="field-group">
                         <div className="field">
                             <label htmlFor="uf">Estado (UF)</label>
-                            <select 
-                                name="uf" 
-                                id="uf" 
-                                value={selectedUF} 
+                            <select
+                                name="uf"
+                                id="uf"
+                                value={selectedUF}
                                 onChange={handleSelectUF}
                             >
                                 <option value="0">Selecione uma UF</option>
@@ -241,8 +241,8 @@ const CreatePoint: React.FC = () => {
                         </div>
                         <div className="field">
                             <label htmlFor="city">Cidade</label>
-                            <select 
-                                name="city" 
+                            <select
+                                name="city"
                                 id="city"
                                 value={selectedCity}
                                 onChange={handleSelectCity}
@@ -263,8 +263,8 @@ const CreatePoint: React.FC = () => {
                     </legend>
                     <ul className="items-grid">
                         {items && items.map(({id, title, image_url}) => (
-                            <li 
-                                key={id} 
+                            <li
+                                key={id}
                                 onClick={() => handleSelectItem(id)}
                                 className={selectedItems.includes(id) ? 'selected' : ''}
                             >
@@ -280,7 +280,7 @@ const CreatePoint: React.FC = () => {
                 </button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default CreatePoint;

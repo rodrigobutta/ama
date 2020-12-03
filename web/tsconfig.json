@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+  "compilerOptions": {    
     "target": "es5",
     "lib": [
       "dom",
@@ -17,7 +17,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "types": ["node"]
   },
   "include": [
     "src"
