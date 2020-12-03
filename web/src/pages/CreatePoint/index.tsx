@@ -46,14 +46,6 @@ const CreatePoint: React.FC = () => {
 
     const history = useHistory();
 
-    // const map = useMapEvents({
-    //     click(e) {
-    //         const newMarker = e.latlng
-    //         console.log(newMarker);
-    //     //   setMarkers([...markers, newMarker]);
-    //     },
-    // })
-
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
@@ -140,16 +132,14 @@ const CreatePoint: React.FC = () => {
         history.push('/');
     }
 
-    function LocationMarker() {
+    const Markers = () => {
 
         const map = useMapEvents({
-            click(e) {                
-                console.log('click', e.latlng, map.getZoom());
+            click(e) {                                
                 setSelectedPosition([
                     e.latlng.lat,
                     e.latlng.lng
-                ]);
-                setInitialPosition([e.latlng.lat, e.latlng.lng])
+                ]);                
             },            
         })
 
@@ -212,7 +202,7 @@ const CreatePoint: React.FC = () => {
                         center={selectedPosition || initialPosition} 
                         zoom={12}                        
                     >
-                        <LocationMarker />
+                        <Markers />
                         <TileLayer
                             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
