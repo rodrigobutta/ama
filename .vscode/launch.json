@@ -30,7 +30,9 @@
             },
             "runtimeArgs": [
                 "--remote-debugging-port=9222"
-            ]
+            ],
+            "sourceMaps": true,
+            "userDataDir": false
         }
     ]
 }

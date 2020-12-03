@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMapEvents, useMap } from 'react-leaflet';
 import axios from 'axios';
 
 import Dropzone from '../../components/Dropzone';
@@ -46,13 +46,16 @@ const CreatePoint: React.FC = () => {
 
     const history = useHistory();
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            const { latitude, longitude } = position.coords;
-            setInitialPosition([latitude, longitude]);
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition(position => {
+    //         const { latitude, longitude } = position.coords;
+    //         setInitialPosition([latitude, longitude]);
 
-        });
-    }, []);
+    //         // const map = useMap();
+    //         map.setView([latitude, longitude],12);
+
+    //     });
+    // }, []);
 
     useEffect(() => {
         api.get('items').then(res => {
@@ -132,9 +135,19 @@ const CreatePoint: React.FC = () => {
         history.push('/');
     }
 
-    const Markers = () => {
+    // const Markers = () => {
+    const Markers: React.FC = () => {
+        const map = useMap();
 
-        const map = useMapEvents({
+        useEffect(() => {
+            navigator.geolocation.getCurrentPosition(position => {
+                const { latitude, longitude } = position.coords;
+                setInitialPosition([latitude, longitude]);
+                map.setView([latitude, longitude],12);
+            });
+        }, []);
+
+        useMapEvents({
             click(e) {                                
                 setSelectedPosition([
                     e.latlng.lat,
@@ -154,7 +167,9 @@ const CreatePoint: React.FC = () => {
         )   
         
     }
-
+    console.log(selectedPosition[0]);
+    const mapCenter = selectedPosition && selectedPosition[0] !== 0 ? selectedPosition : initialPosition 
+    console.log('mapcenter', mapCenter);
     return(
         <div id="page-create-point">
             <header>
@@ -199,7 +214,7 @@ const CreatePoint: React.FC = () => {
                     </legend>
 
                     <MapContainer 
-                        center={selectedPosition || initialPosition} 
+                        center={mapCenter} 
                         zoom={12}                        
                     >
                         <Markers />
