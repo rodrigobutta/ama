@@ -160,7 +160,6 @@ const CreatePoint: React.FC = () => {
         setInitialPosition([latitude, longitude]);
         map.setView([latitude, longitude], 12);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useMapEvents({

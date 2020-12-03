@@ -1,4 +1,4 @@
 {
   "parser": "babel-eslint",
-  "extends": ["some-other-config-you-use", "prettier"]
+  "extends": ["prettier"]
 }
