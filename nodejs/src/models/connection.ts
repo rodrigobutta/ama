@@ -7,9 +7,9 @@ const DB_HOST = process.env.DB_HOST || "localhost";
 const MONGO_PORT = 27017;
 const connection = `mongodb://${DB_HOST}:${MONGO_PORT}/ama`;
 
-
 const connectDb = () => {
-  mongoose.connect(connection, { useNewUrlParser: true, useUnifiedTopology: true })
+  mongoose
+    .connect(connection, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log("DB connected");
     })
@@ -22,7 +22,7 @@ const connectDb = () => {
         console.log("Retrying to connect to DB...");
         connectDb();
       }, RECONNECT_TO_DB_ON_FAIL * 1000);
-    })
+    });
 };
 
 export default connectDb;

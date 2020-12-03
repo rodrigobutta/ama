@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import { ADDRESS, PORT } from '../config/config';
-import ElementNotFoundError from '../exceptions/ElementNotFoundError';
-import { Point } from '../models/Point';
+import { NextFunction, Request, Response } from "express";
+import { ADDRESS, PORT } from "../config/config";
+import ElementNotFoundError from "../exceptions/ElementNotFoundError";
+import { Point } from "../models/Point";
 
 class PointsController {
   async index(request: Request, response: Response, next: NextFunction) {
@@ -10,46 +10,39 @@ class PointsController {
     // const parsedItems = String(points)
     // .split(',')
     // .map(item => Number(item.trim()));
-    
+
     Point.find()
-    .then((points) => {
+      .then((points) => {
+        const serializedPoints = points.map((point: any) => {
+          return {
+            ...point.toJSON(),
+            id: point._id,
+            image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`,
+          };
+        });
 
-    const serializedPoints = points.map((point: any) => {
-      return {
-        ...point.toJSON(),
-        id: point._id,
-        image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`
-      };
-    });
-
-    return response.json(serializedPoints);
-    
-
-    })
-    .catch((err) => {
-      next(err);
-    })
-
-    
+        return response.json(serializedPoints);
+      })
+      .catch((err) => {
+        next(err);
+      });
   }
 
   async show(request: Request, response: Response, next: NextFunction) {
     const { id } = request.params;
 
     Point.findById(id, (err, point) => {
-      if(point){
+      if (point) {
         const res = {
           ...point.toJSON(),
-          image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`
-        };      
-        return response.json(res);  
+          image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`,
+        };
+        return response.json(res);
       }
-      return next(new ElementNotFoundError);
-    })
-    .catch((err) => {
+      return next(new ElementNotFoundError());
+    }).catch((err) => {
       next(err);
-    });  
-    
+    });
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -61,9 +54,9 @@ class PointsController {
       longitude,
       city,
       uf,
-      items
+      items,
     } = request.body;
-  
+
     const point = new Point({
       image: request.file.filename,
       name,
@@ -72,20 +65,20 @@ class PointsController {
       latitude,
       longitude,
       city,
-      uf
+      uf,
     });
 
-    point.save()
+    point
+      .save()
       .then(() => {
         return response.status(201).json({
           status: "Created",
-          _id: point._id
-        })
+          _id: point._id,
+        });
       })
       .catch((err) => {
         return next(err);
-      })
-      
+      });
   }
 }
 
