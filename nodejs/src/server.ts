@@ -23,10 +23,7 @@ app.use(routes);
 
 app.get("/", (req, res) => {
   return res.json({
-    title:
-      "It's Node JS app, written in Typescript, uses Mongo and Docker 333333",
-    description:
-      "Go to /user - to see list of users. And you can make POST request to /user with username to store new user.",
+    test: "OK",    
   });
 });
 app.use("/user", userRouter);
