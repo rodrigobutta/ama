@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ADDRESS, PORT } from "../config/config";
+import { HOST, PORT } from "../config/config";
 import ElementNotFoundError from "../exceptions/ElementNotFoundError";
 import { Point } from "../models/Point";
 
@@ -17,7 +17,7 @@ class PointsController {
           return {
             ...point.toJSON(),
             id: point._id,
-            image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`,
+            image_url: `http://${HOST}:${PORT}/uploads/${point.image}`,
           };
         });
 
@@ -35,7 +35,7 @@ class PointsController {
       if (point) {
         const res = {
           ...point.toJSON(),
-          image_url: `http://${ADDRESS}:${PORT}/uploads/${point.image}`,
+          image_url: `http://${HOST}:${PORT}/uploads/${point.image}`,
         };
         return response.json(res);
       }

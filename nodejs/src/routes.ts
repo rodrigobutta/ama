@@ -1,5 +1,5 @@
 import * as express from "express";
-import { celebrate, Joi } from "celebrate";
+import { celebrate, Joi, errors } from "celebrate";
 
 import * as multer from "multer";
 import multerConfig from "./config/multer";
@@ -36,6 +36,10 @@ routes.post(
     },
     {
       abortEarly: false,
+      messages: {
+        'string.empty': '{#label} cant be empty!',
+        'any.required': '{#label} is a required field for this operation'
+    }
     }
   ),
   pointsController.create

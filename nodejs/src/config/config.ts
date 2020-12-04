@@ -1,3 +1,3 @@
 export const PORT = process.env.PORT || 3000;
 
-export const ADDRESS = process.env.HOST || "localhost";
+export const HOST = process.env.HOST || "localhost";

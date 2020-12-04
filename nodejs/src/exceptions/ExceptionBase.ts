@@ -18,7 +18,7 @@ interface IRequestError {
 class ExceptionBase implements IExceptionBase {
   status: number;
   message: string;
-  error?: ErrorRequestHandler;
+  error?: any;
 
   constructor(
     status: number,

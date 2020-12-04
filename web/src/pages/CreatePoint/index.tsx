@@ -58,17 +58,6 @@ const CreatePoint: React.FC = () => {
 
   const history = useHistory();
 
-  // useEffect(() => {
-  //     navigator.geolocation.getCurrentPosition(position => {
-  //         const { latitude, longitude } = position.coords;
-  //         setInitialPosition([latitude, longitude]);
-
-  //         // const map = useMap();
-  //         map.setView([latitude, longitude],12);
-
-  //     });
-  // }, []);
-
   useEffect(() => {
     api.get("items").then((res) => {
       setItems(res.data);
@@ -158,9 +147,9 @@ const CreatePoint: React.FC = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         setInitialPosition([latitude, longitude]);
-        map.setView([latitude, longitude], 12);
+        map.setView([latitude, longitude], 16);
       });
-    }, []);
+    }, [map]);
 
     useMapEvents({
       click(e) {
@@ -244,7 +233,7 @@ const CreatePoint: React.FC = () => {
           <MapContainer center={mapCenter} zoom={12}>
             <Markers />
             <TileLayer
-              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              attribution=''
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
           </MapContainer>

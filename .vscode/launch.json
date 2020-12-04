@@ -25,14 +25,16 @@
             "request": "launch",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceRoot}/web/src",
+            "sourceMaps": true,
             "sourceMapPathOverrides": {
-                "/app/src/*": "${webRoot}/*"
+                "/app/src/*": "${webRoot}/*",
+                "webpack:///./src/*": "${webRoot}/*"
             },
             "runtimeArgs": [
                 "--remote-debugging-port=9222"
             ],
-            "sourceMaps": true,
-            "userDataDir": false
+            "userDataDir": "${workspaceRoot}/.vscode/chrome",
+            // "userDataDir": false
         }
     ]
 }

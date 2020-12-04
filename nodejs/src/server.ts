@@ -13,7 +13,9 @@ import ServerError from "./exceptions/ServerError";
 import ExceptionBase from "./exceptions/ExceptionBase";
 import connectDb from "./models/connection";
 import routes from "./routes";
-import { PORT, ADDRESS } from "./config/config";
+import { PORT, HOST } from "./config/config";
+import { CelebrateError } from "celebrate";
+import ContractError from "./exceptions/ContractError";
 
 const app: Application = express();
 
@@ -28,27 +30,36 @@ app.get("/", (req, res) => {
 });
 app.use("/user", userRouter);
 
+
+// error handler
+app.use( (
+  err: ErrorRequestHandler,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+
+  if (err) {
+    const errorInstance =
+      err instanceof ExceptionBase
+      ? err 
+      : err instanceof CelebrateError
+        ? new ContractError(err) 
+        : new ServerError(err);
+
+    return res.status(errorInstance.getStatus()).json(errorInstance.getMessage());
+  }
+
+  next()
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(new PageNotFoundError());
 });
 
-// error handler
-app.use(function (
-  err: ErrorRequestHandler,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const errorInstance =
-    err instanceof ExceptionBase ? err : new ServerError(err);
-
-  console.log("Request Error", errorInstance.getMessage());
-
-  return res.status(errorInstance.getStatus()).json(errorInstance.getMessage());
-});
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://${ADDRESS}:${PORT}/`);
+  console.log(`Server running on http://${HOST}:${PORT}/`);
   connectDb();
 });
