@@ -14,13 +14,18 @@ import ExceptionBase from "./exceptions/ExceptionBase";
 import connectDb from "./models/connection";
 import routes from "./routes";
 import { PORT, HOST } from "./config/config";
-import { CelebrateError } from "celebrate";
 import ContractError from "./exceptions/ContractError";
+// import * as bodyParser from 'body-parser';
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+
+// body parser
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json())
+
 app.use(routes);
 
 app.get("/", (req, res) => {
@@ -31,7 +36,6 @@ app.get("/", (req, res) => {
 app.use("/user", userRouter);
 
 
-// error handler
 app.use( (
   err: ErrorRequestHandler,
   req: Request,
@@ -40,18 +44,29 @@ app.use( (
 ) => {
 
   if (err) {
+    // const errorInstance =
+    //   err instanceof ExceptionBase
+    //   ? err 
+    //   : err instanceof CelebrateError
+    //     ? new ContractError(err) 
+    //     : new ServerError(err);
+
     const errorInstance =
       err instanceof ExceptionBase
       ? err 
-      : err instanceof CelebrateError
-        ? new ContractError(err) 
-        : new ServerError(err);
+      : new ServerError(err);
 
     return res.status(errorInstance.getStatus()).json(errorInstance.getMessage());
   }
 
   next()
 });
+
+// Celerate library error handler
+// app.use(errors())
+
+// Custom server error handler
+// app.use(require('./middlewares/handleErrors'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
