@@ -31,17 +31,20 @@ class ExceptionBase implements IExceptionBase {
   }
 
   getMessage() {
+    const baseResponse = {
+      status: this.status,
+      message: this.message,
+    };
+
     if (this.error) {
       const err = (this.error as unknown) as IRequestError;
       return {
-        message: this.message,
+        ...baseResponse,
         error: err.message,
         stack: err.stack,
       };
     } else {
-      return {
-        message: this.message,
-      };
+      return baseResponse;
     }
   }
 

@@ -1,6 +1,4 @@
-import Joi = require('joi')
-
-const priceSchema = Joi.number().min(0.01);
+import * as Joi from "joi";
 
 export const createPointSchema = Joi.object().keys({
   name: Joi.string().required(),
@@ -11,9 +9,5 @@ export const createPointSchema = Joi.object().keys({
   city: Joi.string().required(),
   uf: Joi.string().required().max(2),
   items: Joi.string().required(),
-});
-
-export const editPointSchema = Joi.object().keys({
-  description: Joi.string(),
-  price: priceSchema.error(() => 'when editing price must be number greater than 0.01')
+  // image: Joi.exist(),
 });

@@ -10,15 +10,9 @@
             "address": "localhost",
             "localRoot": "${workspaceFolder}/nodejs/src/",
             "protocol": "inspector",
-            "restart": true
-        },     
-        // {
-        //     "name": "Web React Chrome",
-        //     "type": "chrome",
-        //     "request": "launch",
-        //     "url": "http://localhost:3000",
-        //     "webRoot": "${workspaceRoot}/web/src",           
-        // },
+            "restart": true,
+            "sourceMaps": true,
+        },         
         {
             "name": "Docker: Web React Chrome",
             "type": "chrome",
@@ -33,8 +27,7 @@
             "runtimeArgs": [
                 "--remote-debugging-port=9222"
             ],
-            "userDataDir": "${workspaceRoot}/.vscode/chrome",
-            // "userDataDir": false
+            "userDataDir": "${workspaceRoot}/.vscode/chrome",          
         }
     ]
 }

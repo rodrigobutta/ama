@@ -12,12 +12,12 @@ COPY ./src/ /work/src/
 # ENTRYPOINT [ "nodemon","--config","nodemon.json","--inspect=0.0.0.0","./src/server.ts" ]
 ENTRYPOINT [ "nodemon","--inspect=0.0.0.0","./src/server.ts" ]
 
-FROM node:12.4.0-alpine as nodejs_prod
+# FROM node:12.4.0-alpine as nodejs_prod
 
-WORKDIR /work/
-COPY ./package.json /work/package.json
-RUN npm install
+# WORKDIR /work/
+# COPY ./package.json /work/package.json
+# RUN npm install
 
-COPY ./src/ /work/
+# COPY ./src/ /work/
 
-CMD node .
+# CMD node .

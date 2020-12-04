@@ -57,28 +57,32 @@ class PointsController {
       items,
     } = request.body;
 
-    const point = new Point({
-      image: request.file.filename,
-      name,
-      email,
-      whatsapp,
-      latitude,
-      longitude,
-      city,
-      uf,
-    });
-
-    point
-      .save()
-      .then(() => {
-        return response.status(201).json({
-          status: "Created",
-          _id: point._id,
-        });
-      })
-      .catch((err) => {
-        return next(err);
+    try {
+      const point = new Point({
+        image: request.file.filename,
+        name,
+        email,
+        whatsapp,
+        latitude,
+        longitude,
+        city,
+        uf,
       });
+
+      point
+        .save()
+        .then(() => {
+          return response.status(201).json({
+            status: "Created",
+            _id: point._id,
+          });
+        })
+        .catch((err) => {
+          return next(err);
+        });
+    } catch (error) {
+      return next(error);
+    }
   }
 }
 

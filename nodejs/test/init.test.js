@@ -1,10 +1,9 @@
 // const assert = require('assert');
-// const {       
+// const {
 //     fullnamesPrettyPrint,
 //     getFullName,
-//     isAlphabetic, 
-// } = require('../src/helpers'); 
-
+//     isAlphabetic,
+// } = require('../src/helpers');
 
 // describe('Alphabetic', () => {
 
@@ -18,7 +17,7 @@
 // });
 
 // describe('Fullname pretty printing', () => {
-    
+
 //     it('FullName pretty print with multiple names', () => {
 //         assert.deepStrictEqual(
 //             fullnamesPrettyPrint([{
@@ -27,9 +26,9 @@
 //             }, {
 //                 first: 'Eduardo',
 //                 last: 'Butta'
-//             }]), 
+//             }]),
 //             ['Butta, Rodrigo', 'Butta, Eduardo']
 //         );
 //     });
-    
+
 // });
