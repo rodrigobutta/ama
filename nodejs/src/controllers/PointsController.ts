@@ -15,8 +15,8 @@ class PointsController {
       .then((points) => {
         const serializedPoints = points.map((point: any) => {
           return {
-            ...point.toJSON(),
             id: point._id,
+            ...point.toJSON(),
             image_url: `http://${HOST}:${PORT}/uploads/${point.image}`,
           };
         });
@@ -34,6 +34,7 @@ class PointsController {
     Point.findById(id, (err, point) => {
       if (point) {
         const res = {
+          id: point._id,
           ...point.toJSON(),
           image_url: `http://${HOST}:${PORT}/uploads/${point.image}`,
         };

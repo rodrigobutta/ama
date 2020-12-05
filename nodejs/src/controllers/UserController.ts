@@ -6,7 +6,14 @@ class UserController {
   async index(request: Request, response: Response, next: NextFunction) {
     User.find()
       .then((users) => {
-        return response.json(users);
+        const serializedUsers = users.map((user: any) => {
+          return {
+            id: user._id,
+            ...user.toJSON()
+          };
+        });
+
+        return response.json(serializedUsers);
       })
       .catch((err) => {
         next(err);
@@ -38,8 +45,8 @@ class UserController {
           .save()
           .then(() => {
             return response.status(201).json({
+              id: user._id,
               status: "Created",
-              _id: user._id,
             });
           })
           .catch((err) => {

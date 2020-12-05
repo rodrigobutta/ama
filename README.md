@@ -33,6 +33,19 @@
 ### Debug VSCODE
 (when up running): Start debug from VSCODE: `Docker: Web React Chrome`
 
+## Mobile App (React Native)
+Not over Docker. Using EXPO
+
+### Config
+`mobile/src/config/config.ts` Set nodejs port and current local IP (for example 192.160.0.120)
+
+### Install and Build
+`yarn install`
+
+### Run
+//  http://localhost:19002
+`yarn start`    
+
 # Run Prettier Batch
 (shouldnt be needed but if we paste code from somewhere else)
 
