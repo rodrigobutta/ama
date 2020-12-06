@@ -42,6 +42,19 @@ Not over Docker. Using EXPO
 ### Install and Build
 `yarn install`
 
+### For debugging in vscode
+https://marketplace.visualstudio.com/items?itemName=msjsdiag.vscode-react-native#expo-applications
+
+`npm install react-native --global`
+`npx react-native upgrade`
+`npx react-native doctor`
+`npm install -g expo-cli`
+`expo start -c`
+`react-native-clean-project`
+
+VSCODE React Native Tools extension
+
+
 ### Run
 //  http://localhost:19002
 `yarn start`    
